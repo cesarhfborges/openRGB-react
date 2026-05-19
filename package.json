@@ -5,16 +5,25 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
+    "android:clear": "expo start --android --clear",
     "ios": "expo start --ios",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@tamagui/config": "^2.0.0-rc.42",
+    "@tamagui/core": "^2.0.0-rc.42",
+    "@tamagui/lucide-icons-2": "^2.0.0-rc.42",
+    "@tamagui/theme-base": "^2.0.0-rc.42",
     "expo": "~55.0.25",
+    "expo-font": "^55.0.8",
     "expo-status-bar": "~55.0.6",
     "react": "19.2.0",
-    "react-native": "0.83.6"
+    "react-dom": "19.2.0",
+    "react-native": "0.83.6",
+    "tamagui": "^2.0.0-rc.42"
   },
   "devDependencies": {
+    "@tamagui/babel-plugin": "^2.0.0-rc.42",
     "@types/react": "~19.2.2",
     "typescript": "~5.9.2"
   },
