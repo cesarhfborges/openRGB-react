@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Animated, LayoutChangeEvent, Pressable,} from 'react-native';
+import {Animated, LayoutChangeEvent, Pressable, useColorScheme,} from 'react-native';
 
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 
@@ -25,6 +25,7 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
 
     const theme = useTheme();
     const insets = useSafeAreaInsets();
+    const colorScheme = useColorScheme();
 
     const [layouts, setLayouts] = useState<TabLayout[]>([]);
 
@@ -202,7 +203,7 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
                                     fontWeight="600"
                                     color={
                                         focused
-                                            ? '$color1'
+                                            ? (colorScheme === 'dark' ? '$color1' : '$green1Dark')
                                             : '$color11'
                                     }
                                 >
