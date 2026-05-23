@@ -22,18 +22,7 @@
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "edgeToEdgeEnabled": true,
-      "softwareKeyboardLayoutMode": "resize",
-      "statusBar": {
-        "translucent": true,
-        "backgroundColor": "#00000000",
-        "barStyle": "dark-content"
-      },
-      "navigationBar": {
-        "position": "absolute",
-        "backgroundColor": "#00000000",
-        "barStyle": "dark-content"
-      }
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "favicon": "./assets/favicon.png"

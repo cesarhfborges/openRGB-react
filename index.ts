@@ -1,3 +1,4 @@
+import '@tamagui/native/setup-expo-linear-gradient';
 import { registerRootComponent } from 'expo';
 
 import App from './App';

@@ -1,15 +1,7 @@
-import { createNativeStackNavigator }
-    from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {ConnectionScreen} from '../screens/ConnectionScreen';
 
-import { ConnectionScreen }
-    from '../screens/ConnectionScreen';
-
-export type AuthStackParamList = {
-    Connection: undefined;
-};
-
-const Stack =
-    createNativeStackNavigator<AuthStackParamList>();
+const Stack = createNativeStackNavigator();
 
 export function AuthNavigator() {
     return (

@@ -27,7 +27,6 @@ const config = createTamagui({
     ...configBase,
     animations,
     themeClassNameOnRoot: false,
-    // Aqui você pode customizar suas cores escuras futuramente se quiser bater com o mockup exatamente
     themes: {
         ...configBase.themes,
         ...themes

@@ -6,6 +6,7 @@ const darkPalette = ['hsla(150, 100%, 1%, 1)', 'hsla(150, 100%, 6%, 1)', 'hsla(1
 const lightPalette = ['hsla(150, 100%, 94%, 1)', 'hsla(150, 100%, 89%, 1)', 'hsla(150, 100%, 84%, 1)', 'hsla(150, 100%, 79%, 1)', 'hsla(150, 100%, 74%, 1)', 'hsla(150, 100%, 70%, 1)', 'hsla(150, 100%, 65%, 1)', 'hsla(150, 100%, 60%, 1)', 'hsla(150, 100%, 55%, 1)', 'hsla(150, 100%, 50%, 1)', 'hsla(0, 15%, 15%, 1)', 'hsla(0, 15%, 1%, 1)']
 
 const accentLight = {
+    "background": "red",
     "accent1": "hsla(250, 50%, 40%, 1)",
     "accent2": "hsla(250, 50%, 43%, 1)",
     "accent3": "hsla(250, 50%, 46%, 1)",
@@ -21,6 +22,7 @@ const accentLight = {
 }
 
 const accentDark = {
+    "background": "red",
     "accent1": "hsla(250, 50%, 35%, 1)",
     "accent2": "hsla(250, 50%, 38%, 1)",
     "accent3": "hsla(250, 50%, 41%, 1)",

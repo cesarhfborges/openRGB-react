@@ -1,5 +1,3 @@
-// src/contexts/AuthContext.tsx
-
 import {createContext, PropsWithChildren, useCallback, useContext, useMemo, useState,} from 'react';
 
 type AuthContextData = {

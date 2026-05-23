@@ -1,5 +1,3 @@
-// AppLayout.tsx
-
 import {PropsWithChildren} from 'react';
 import {KeyboardAvoidingView, Platform} from 'react-native';
 import {YStack} from 'tamagui';

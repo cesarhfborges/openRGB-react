@@ -1,197 +1,137 @@
-import React, {useState} from 'react'
-import {NativeStackScreenProps} from '@react-navigation/native-stack'
-import {Button, Input, ScrollView, Text, YStack} from 'tamagui'
-import {KeyboardAvoidingView, Platform} from "react-native";
+import React, {useMemo, useState} from 'react'
+import {Button, Card, Input, Paragraph, Text, XStack, YStack} from 'tamagui'
+import {StyleSheet} from "react-native";
 import {useSafeAreaInsets} from "react-native-safe-area-context";
+import {Server} from "@tamagui/lucide-icons-2";
+import {Mask} from 'maska';
+import {LinearGradient} from "@tamagui/linear-gradient";
+import {useAuth} from "../contexts/AuthContext";
 
 export function ConnectionScreen({navigation}: any) {
     const insets = useSafeAreaInsets();
-    const [ipAddress, setIpAddress] = useState('192.168.1.10')
-    const [autoDiscover, setAutoDiscover] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [status, setStatus] = useState<'desconectado' | 'conectando' | 'erro'>('desconectado')
+    const auth = useAuth();
+    const [ipAddress, setIpAddress] = useState('192.168.1.10');
 
-    const handleConnect = async () => {
-        setLoading(true)
-        setStatus('conectando')
-
-        try {
-            // Aqui entrará a chamada para o seu módulo nativo:
-            // await connectToOpenRgb(autoDiscover ? '255.255.255.255' : ipAddress)
-
-            // Simulando um delay de conexão para efeito visual do protótipo
-            await new Promise(resolve => setTimeout(resolve, 1500))
-
-            setLoading(false)
-            setStatus('desconectado')
-
-            // Navega para a Home após o sucesso
-            navigation.replace('Home')
-        } catch (error) {
-            setLoading(false)
-            setStatus('erro')
-        }
-    }
+    const ipMask = useMemo(
+        () =>
+            new Mask({
+                mask: '#00.#00.#00.#00',
+                tokens: {
+                    0: {
+                        pattern: /[0-9]/,
+                        optional: true,
+                    },
+                },
+            }),
+        []
+    );
 
     return (
         <YStack
             flex={1}
-            backgroundColor="$background"
         >
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                // behavior="padding"
-                style={{flex: 1, backgroundColor: 'green'}}
+            <LinearGradient
+                flex={1}
+                colors={['#BA1735', '#BA1735', '#2A1736', '#2A1736', '#2A1736']}
+                start={[0, 0]}
+                end={[1, 1]}
+                justifyContent="center"
             >
-                <ScrollView
-                    contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
-                    bounces={false}
-                    showsVerticalScrollIndicator={false}
-                    // backgroundColor="$background"
-                    backgroundColor="red"
+                <YStack
+                    paddingHorizontal="$5"
+                    justifyContent="center"
+                    flexGrow={1}
+                    gap="$4"
                 >
-                    <YStack
-                        flex={1}
-                        backgroundColor="$background"
-                        paddingTop={insets.top > 0 ? insets.top : '$4'}
-                        paddingBottom={insets.bottom > 0 ? insets.bottom : '$4'}
+
+                    <Card
+                        backgroundColor="$cardBackground"
+                        padding="$5"
+                        borderRadius="$4"
+                        elevation="$4"
+                        borderWidth={1}
+                        borderColor="$borderColor"
                     >
-                        <Input
-                            flex={1}
-                            value={ipAddress}
-                            onChangeText={setIpAddress}
-                            placeholder="Ex: 192.168.1.50"
-                            keyboardType="numeric"
-                            disabled={autoDiscover}
-                            opacity={autoDiscover ? 0.5 : 1}
-                            backgroundColor="$background"
-                            borderColor="$borderColor"
-                        />
-                        <Button onPress={() => navigation.navigate('Home')}>Go Home</Button>
-                        {Array.from({length: 50}).map((_, i) => (
-                            <Text key={i} fontSize={28} fontWeight="bold" letterSpacing={1} textAlign="center">
-                                OPEN<Text color="$brand">RGB</Text> {i}
+                        <YStack gap="$4">
+                            <Text fontSize={18} fontWeight="bold" color="$color">
+                                Conectar ao Servidor
                             </Text>
-                        ))}
-                    </YStack>
-                    {/*    <YStack*/}
-                    {/*        flex={1}*/}
-                    {/*        backgroundColor="$background"*/}
-                    {/*        padding="$6"*/}
-                    {/*        gap="$6"*/}
-                    {/*        justifyContent="center"*/}
-                    {/*        // 2. Aplicamos os paddings de segurança aqui de forma transparente baseados no aparelho*/}
-                    {/*        // paddingTop={insets.top > 0 ? insets.top : '$4'}*/}
-                    {/*        // paddingBottom={insets.bottom > 0 ? insets.bottom : '$4'}*/}
-                    {/*    >*/}
-                    {/*        /!* Header / Logo Area *!/*/}
-                    {/*        <YStack alignItems="center" gap="$2">*/}
-                    {/*            <YStack*/}
-                    {/*                backgroundColor="$brand"*/}
-                    {/*                opacity={0.8}*/}
-                    {/*                padding="$4"*/}
-                    {/*                borderRadius="$full"*/}
-                    {/*                shadowColor="$brand"*/}
-                    {/*                shadowRadius={15}*/}
-                    {/*            >*/}
-                    {/*                <Radio size="$4" color="$background"/>*/}
-                    {/*            </YStack>*/}
 
-                    {/*            <Text fontSize={28} fontWeight="bold" letterSpacing={1} textAlign="center">*/}
-                    {/*                OPEN<Text color="$brand">RGB</Text>*/}
-                    {/*            </Text>*/}
-                    {/*            <Text fontSize={14} color="$colorMuted" letterSpacing={2}>*/}
-                    {/*                MOBILE*/}
-                    {/*            </Text>*/}
-                    {/*        </YStack>*/}
+                            <YStack gap="$2">
+                                <Paragraph fontSize={12} color="$colorMuted">Endereço IP</Paragraph>
+                                <XStack alignItems="center" gap="$2">
+                                    <Server size="$1" color="$colorMuted"/>
+                                    <Input
+                                        flex={1}
+                                        value={ipAddress}
+                                        onChangeText={(text) => {
+                                            setIpAddress(ipMask.masked(text));
+                                        }}
+                                        placeholder="Ex: 192.168.1.50"
+                                        keyboardType="phone-pad"
+                                        // keyboardType="number-pad"
+                                        // disabled={autoDiscover}
+                                        // opacity={autoDiscover ? 0.5 : 1}
+                                        // backgroundColor="$background"
+                                        borderColor="$borderColor"
+                                    />
+                                </XStack>
+                            </YStack>
 
-                    {/*        /!* Connection Card *!/*/}
-                    {/*        <Card*/}
-                    {/*            backgroundColor="$cardBackground"*/}
-                    {/*            padding="$5"*/}
-                    {/*            borderRadius="$4"*/}
-                    {/*            elevation="$4"*/}
-                    {/*            borderWidth={1}*/}
-                    {/*            borderColor="$borderColor"*/}
-                    {/*        >*/}
-                    {/*            <YStack gap="$4">*/}
-                    {/*                <Text fontSize={18} fontWeight="bold" color="$color">*/}
-                    {/*                    Conectar ao Servidor*/}
-                    {/*                </Text>*/}
+                            <Button
+                                backgroundColor="$brand"
+                                onPress={() => auth.login()}
+                            >
+                                Conectar
+                            </Button>
+                        </YStack>
+                    </Card>
+                    <Card
+                        backgroundColor="$cardBackground"
+                        padding="$5"
+                        borderRadius="$4"
+                        elevation="$4"
+                        borderWidth={1}
+                        borderColor="$borderColor"
+                    >
+                        <YStack gap="$4">
+                            <Text fontSize={18} fontWeight="bold" color="$color">
+                                Conectar ao Servidor
+                            </Text>
+                            <Text>Teste</Text>
+                        </YStack>
+                    </Card>
+                </YStack>
 
-                    {/*                /!* Campo de IP - Desabilita se o Auto Discover estiver ativo *!/*/}
-                    {/*                <YStack gap="$2">*/}
-                    {/*                    <Paragraph fontSize={12} color="$colorMuted">Endereço IP</Paragraph>*/}
-                    {/*                    <XStack alignItems="center" gap="$2">*/}
-                    {/*                        <Server size="$1" color="$colorMuted"/>*/}
-                    {/*                        <Input*/}
-                    {/*                            flex={1}*/}
-                    {/*                            value={ipAddress}*/}
-                    {/*                            onChangeText={setIpAddress}*/}
-                    {/*                            placeholder="Ex: 192.168.1.50"*/}
-                    {/*                            keyboardType="numeric"*/}
-                    {/*                            disabled={autoDiscover}*/}
-                    {/*                            opacity={autoDiscover ? 0.5 : 1}*/}
-                    {/*                            backgroundColor="$background"*/}
-                    {/*                            borderColor="$borderColor"*/}
-                    {/*                        />*/}
-                    {/*                    </XStack>*/}
-                    {/*                </YStack>*/}
+                {/*<YStack*/}
+                {/*    paddingHorizontal="$5"*/}
+                {/*    justifyContent="center"*/}
+                {/*    flexGrow={1}*/}
+                {/*>*/}
+                {/*    <Card*/}
+                {/*        backgroundColor="$cardBackground"*/}
+                {/*        padding="$5"*/}
+                {/*        borderRadius="$4"*/}
+                {/*        elevation="$4"*/}
+                {/*        borderWidth={1}*/}
+                {/*        borderColor="$borderColor"*/}
+                {/*    >*/}
+                {/*        <Text>Teste</Text>*/}
+                {/*    </Card>*/}
+                {/*</YStack>*/}
 
-                    {/*                /!* Linha do Auto Discover *!/*/}
-                    {/*                <XStack justifyContent="space-between" alignItems="center" paddingVertical="$2">*/}
-                    {/*                    <XStack gap="$2" alignItems="center">*/}
-                    {/*                        <Wifi size="$1" color="$brand"/>*/}
-                    {/*                        <Paragraph fontSize={14}>Detectar Automaticamente</Paragraph>*/}
-                    {/*                    </XStack>*/}
-                    {/*                    <Switch*/}
-                    {/*                        size="$3"*/}
-                    {/*                        checked={autoDiscover}*/}
-                    {/*                        onCheckedChange={setAutoDiscover}*/}
-                    {/*                        backgroundColor={autoDiscover ? "$brand" : "$background"}*/}
-                    {/*                    >*/}
-                    {/*                        <Switch.Thumb/>*/}
-                    {/*                    </Switch>*/}
-                    {/*                </XStack>*/}
-
-                    {/*                /!* Botão de Conexão *!/*/}
-                    {/*                <Button*/}
-                    {/*                    backgroundColor="$brand"*/}
-                    {/*                    // color="$background"*/}
-                    {/*                    // fontWeight="bold"*/}
-                    {/*                    // fontSize={16}*/}
-                    {/*                    // onPress={handleConnect}*/}
-                    {/*                    // disabled={loading}*/}
-                    {/*                    // icon={loading ? <Spinner color="$background"/> : null}*/}
-                    {/*                    // pressStyle={{opacity: 0.8}}*/}
-                    {/*                >*/}
-                    {/*                    {loading ? 'CONECTANDO...' : 'CONECTAR'}*/}
-                    {/*                </Button>*/}
-                    {/*            </YStack>*/}
-                    {/*        </Card>*/}
-
-                    {/*        /!* Status Footer *!/*/}
-                    {/*        <YStack alignItems="center" gap="$2">*/}
-                    {/*            <XStack gap="$2" alignItems="center">*/}
-                    {/*                <Activity size="$1" color={status === 'erro' ? '$red10' : '$colorMuted'}/>*/}
-                    {/*                <Text fontSize={13} color="$colorMuted">*/}
-                    {/*                    Status: {status === 'conectando' ? 'Tentando handshake...' : status === 'erro' ? 'Falha na conexão' : 'Desconectado'}*/}
-                    {/*                </Text>*/}
-                    {/*            </XStack>*/}
-
-                    {/*            <Button*/}
-                    {/*                chromeless*/}
-                    {/*                // color="$brand"*/}
-                    {/*                // fontSize={12}*/}
-                    {/*                // textDecorationLine="underline"*/}
-                    {/*                // pressStyle={{opacity: 0.6}}*/}
-                    {/*            >*/}
-                    {/*                Verificar Status do Servidor*/}
-                    {/*            </Button>*/}
-                    {/*        </YStack>*/}
-                    {/*    </YStack>*/}
-                </ScrollView>
-            </KeyboardAvoidingView>
+            </LinearGradient>
         </YStack>
     )
 }
+
+const styles = StyleSheet.create({
+    background: {
+        // position: 'absolute',
+        flex: 1,
+        left: 0,
+        right: 0,
+        top: 0,
+        // height: 300,
+    },
+});
