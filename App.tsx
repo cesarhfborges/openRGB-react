@@ -3,9 +3,9 @@ import {useFonts} from 'expo-font';
 import {Spinner, TamaguiProvider, Theme, View} from 'tamagui';
 import config from './tamagui.config';
 import {NavigationContainer} from "@react-navigation/native";
-import {AppNavigator} from "./src/navigation";
+import {AppNavigator} from "./src/app/navigation";
 import {useColorScheme} from "react-native";
-import {AuthProvider} from "./src/contexts/AuthContext";
+import {AuthProvider} from "./src/app/contexts/AuthContext";
 import * as NavigationBar from 'expo-navigation-bar';
 
 // Importação da sua tela (seja via Expo Router ou componente local)

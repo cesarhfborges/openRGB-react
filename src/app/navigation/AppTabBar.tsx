@@ -89,10 +89,10 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
         >
             <XStack
                 padding={4}
-                borderRadius={30}
+                borderRadius={160}
                 backgroundColor="$background"
                 borderWidth={1}
-                borderColor="$borderColor"
+                borderColor={colorScheme === 'dark' ? 'hsla(150, 100%, 17%, 1)' : 'hsl(151 100% 26%)'}
                 overflow="hidden"
                 elevation="$4"
             >
@@ -109,11 +109,9 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
                             width:
                             layouts[state.index].width,
 
-                            borderRadius: 24,
+                            borderRadius: 160,
 
-                            backgroundColor:
-                                theme.color5?.val ??
-                                '#3B82F6',
+                            backgroundColor: colorScheme === 'dark' ? 'hsla(150, 100%, 17%, 1)' : 'hsl(151 100% 26%)',
 
                             transform: [
                                 {
@@ -137,10 +135,9 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
                                 .options.tabBarLabel
                             : route.name;
 
-                    const Icon =
-                        ICONS[
-                            route.name as keyof typeof ICONS
-                            ] ?? Home;
+                    const tabBarIcon =
+                        descriptors[route.key]
+                            .options.tabBarIcon;
 
                     const onPress = () => {
 
@@ -170,7 +167,7 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
                             onPress={onPress}
                             android_ripple={{
                                 borderless: false,
-                                radius: 24,
+                                radius: 80,
                             }}
                             style={{
                                 flex: 1,
@@ -180,35 +177,46 @@ export function AppTabBar({state, descriptors, navigation}: BottomTabBarProps) {
                                 flex={1}
                                 alignItems="center"
                                 justifyContent="center"
-                                gap="$1"
+                                gap="$1.5"
                                 paddingVertical="$2"
-                                paddingHorizontal="$3"
+                                // paddingHorizontal="$3"
+                                minHeight={68}
                             >
-                                <Icon
-                                    size={18}
-                                    color={
-                                        focused
-                                            ? theme.color1?.val
-                                            : theme.color11?.val
-                                    }
-                                />
+                                {tabBarIcon
+                                    ? tabBarIcon({
+                                        focused,
+                                        color: focused
+                                            ? theme.color1?.val ?? '#fff'
+                                            : theme.color11?.val ?? '#999',
+                                        size: 18,
+                                    })
+                                    : (
+                                        <Home
+                                            size={18}
+                                            color={
+                                                focused
+                                                    ? theme.color1?.val
+                                                    : theme.color11?.val
+                                            }
+                                        />
+                                    )}
 
-                                <Text
-                                    numberOfLines={1}
-                                    adjustsFontSizeToFit
-                                    minimumFontScale={0.8}
-                                    textAlign="center"
-                                    ellipsizeMode="tail"
-                                    fontSize={12}
-                                    fontWeight="600"
-                                    color={
-                                        focused
-                                            ? (colorScheme === 'dark' ? '$color1' : '$green1Dark')
-                                            : '$color11'
-                                    }
-                                >
-                                    {String(label)}
-                                </Text>
+                                {/*<Text*/}
+                                {/*    numberOfLines={1}*/}
+                                {/*    adjustsFontSizeToFit={false}*/}
+                                {/*    minimumFontScale={0.9}*/}
+                                {/*    textAlign="center"*/}
+                                {/*    ellipsizeMode="tail"*/}
+                                {/*    fontSize={10}*/}
+                                {/*    fontWeight="600"*/}
+                                {/*    color={*/}
+                                {/*        focused*/}
+                                {/*            ? '$color1'*/}
+                                {/*            : '$color11'*/}
+                                {/*    }*/}
+                                {/*>*/}
+                                {/*    {String(label)}*/}
+                                {/*</Text>*/}
                             </YStack>
                         </Pressable>
                     );
